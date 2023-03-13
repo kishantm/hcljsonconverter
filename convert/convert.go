@@ -18,18 +18,19 @@ type Options struct {
 
 // Bytes takes the contents of an HCL file, as bytes, and converts
 // them into a JSON representation of the HCL file.
-func Bytes(bytes []byte, filename string, options Options) ([]byte, []byte, error) {
+func Bytes(bytes []byte, filename string, options Options) ([]byte, error) {
 	file, diags := hclsyntax.ParseConfig(bytes, filename, hcl.Pos{Line: 1, Column: 1})
 	if diags.HasErrors() {
-		return nil, nil, fmt.Errorf("parse config: %v", diags.Errs())
+		return nil, fmt.Errorf("parse config: %v", diags.Errs())
 	}
 
 	hclBytes, lineBytes, err := File(file, options)
 	if err != nil {
-		return nil, nil, fmt.Errorf("convert to HCL: %w", err)
+		return nil, fmt.Errorf("convert to HCL: %w", err)
 	}
+	_ = lineBytes
 
-	return hclBytes, lineBytes, nil
+	return hclBytes, nil
 }
 
 // File takes an HCL file and converts it to its JSON representation.

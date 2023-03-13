@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/tmccombs/hcl2json/convert"
+	"github.com/kishantm/hcljsonconverter/convert"
 )
 
 func main() {
